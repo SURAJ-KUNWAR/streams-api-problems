@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class main {
+
     public static void main(String[] args) {
 //        1. Filter Even Numbers from a List
 //        Question: Given a list of integers, filter the even numbers.
@@ -147,6 +148,158 @@ public class main {
                                 Collectors.counting()
                         ));
         System.out.println(freqOfChar);
+
+
+//        17. Remove Null Values
+//        Question: Remove null values from a list using filter.
+
+        List<String> wordsss = Arrays.asList("Java", null, "Stream", null, "API");
+        List<String> nonNullWords = wordsss.stream()
+                .filter(w -> w!=null)
+                .collect(Collectors.toList());
+        System.out.println(nonNullWords);
+
+
+//        18. Calculate Average of Numbers
+//        Question: Calculate the average of a list of integers.
+
+        List<Integer> numberssss = Arrays.asList(10, 20, 30, 40, 50);
+        double avg = numberssss.stream()
+                .mapToInt(i -> (int) i)
+                .average().orElse(0.0);
+        System.out.println(avg);
+
+//        19. Collect Map from List
+//        Question: Convert a list of strings into a map with the string as the key and its length as the value.
+
+        List<String> wordssss = Arrays.asList("Java", "Stream", "API");
+        Map<String , Integer> mapOfWordLength = wordssss.stream()
+                .collect(Collectors.toMap(
+                        wd -> wd,
+                       wd -> wd.length()
+                ));
+        System.out.println(mapOfWordLength);
+
+//        20. Partition Numbers into Even and Odd
+//        Question: Partition a list of numbers into even and odd.
+          List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+          Map<Boolean , List<Integer>> evenOdd = numbers.stream()
+                  .collect(Collectors.partitioningBy(n -> n%2 ==0));
+        System.out.println(evenOdd);
+
+//        21. Find Nth Largest Element in a List
+//        Question: Find the 3rd largest element in a list.
+
+       int thirdLargestNum = numbers.stream()
+               .sorted(Comparator.reverseOrder())
+               .skip(2)
+               .findFirst()
+               .orElse(null);
+        System.out.println(thirdLargestNum);
+
+
+//        22. Find All Palindromic Strings
+//        Question: Find all strings that are palindromes in a list.
+
+                List<String> worddssss = Arrays.asList("radar", "level", "world", "java");
+
+                List<String> palindromes = worddssss.stream()
+                        .filter(sen-> sen.equals( new StringBuilder(sen).reverse().toString()))
+                        .collect(Collectors.toList());
+        System.out.println(palindromes);
+
+
+//        24. Filter and Convert Map to List
+//        Question: Given a map, filter entries with values greater than 10 and collect keys into a list.
+
+        Map<String, Integer> map = Map.of("A", 5, "B", 15, "C", 10, "D", 20);
+        List<String> numGreaterThan10 = map.entrySet()
+                .stream().filter(m -> m.getValue() > 10)
+                .map( m -> m.getKey())
+                .collect(Collectors.toList());
+        System.out.println(numGreaterThan10);
+//
+//        25. Remove Duplicates Without Collectors
+//        Question: Remove duplicates from a list using distinct().
+
+                List<Integer> numberrss = Arrays.asList(1, 2, 3, 2, 4, 3, 5);
+                List<Integer> uniqueNumbers = numberrss.stream().distinct().collect(Collectors.toList());
+                System.out.println(uniqueNumbers);
+
+//        26. Find the Most Frequent Character in a String
+//        Question: Find the most frequent character in a string.
+
+        String input = "success";
+        Optional<Character> c = input.chars()
+                .mapToObj(ch -> (char) ch)
+                .collect(
+                        Collectors.groupingBy(
+                                ch-> ch,
+
+                                Collectors.counting()
+
+                        )
+                )
+                .entrySet()
+                        .stream()
+                                .max(Map.Entry.comparingByValue())
+                                        .map(Map.Entry::getKey);
+        System.out.println(c);
+//
+//        27. Find Common Elements Between Two Lists
+//        Question: Find common elements between two lists.
+
+        List<Integer> list1 = Arrays.asList(1, 2, 3, 4, 5);
+        List<Integer> list2 = Arrays.asList(3, 4, 5, 6, 7);
+
+        List<Integer> common = list1.stream()
+                .filter(n -> list2.contains(n))
+                .collect(Collectors.toList());
+        System.out.println(common);
+//
+//        28. Find the Sum of Squares of Even Numbers
+//        Question: Calculate the sum of squares of all even numbers in a list.
+
+        List<Integer> numss = Arrays.asList(1, 2, 3, 4, 5, 6);
+        int evenSumSqr = numss.stream()
+                .filter(n -> n%2 == 0)
+                .reduce(0 , (a ,b) -> a + (b*b));
+        System.out.println(evenSumSqr);
+
+//        29. Partition Strings by Palindrome
+//        Question: Partition strings into palindromes and non-palindromes.
+
+        List<String> wordsPartitioned = Arrays.asList("radar", "level", "java", "stream");
+
+        Map<Boolean , List<String>> mapForPart = wordsPartitioned.stream()
+                .collect(Collectors.partitioningBy(word -> word.equals(new StringBuilder(word).reverse().toString())));
+        System.out.println(mapForPart);
+
+//        30. Skip and Limit Elements
+//        Question: Skip the first 3 elements and limit the result to the next 2.
+
+        List<Integer> numbs = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        List<Integer> lt = numbs.stream()
+                .skip(3)
+                .limit(2)
+                .collect(Collectors.toList());
+        System.out.println(lt);
+//
+//        31. Find the Longest Word from a Sentence
+//        Question: Find the longest word in a sentence using Streams.
+
+                String sentence = "Java Stream API is very powerful";
+
+                Optional<String> longWord = Arrays.asList(sentence.split(" "))
+                        .stream()
+                        .max(Comparator.comparing(String::length));
+        System.out.println(longWord.get());
+
+
+
+
+
+
 
 
 
