@@ -3,6 +3,34 @@ package final_streams_api_revision;
 import java.util.*;
 import java.util.stream.Collectors;
 
+class Student {
+    String name;
+    int score;
+    Student(String name, int score) { this.name = name; this.score = score; }
+    public int getScore(){
+        return this.score;
+    }
+}
+
+class Employee {
+    String name, department;
+    int age;
+    Employee(String name, String department, int age) {
+        this.name = name;
+        this.department = department;
+        this.age = age;
+    }
+}
+class Employeee {
+    String name, department;
+    double salary;
+    Employeee(String name, String department, double salary) {
+        this.name = name;
+        this.department = department;
+        this.salary = salary;
+    }
+}
+
 public class main {
 
     public static void main(String[] args) {
@@ -294,6 +322,89 @@ public class main {
                         .stream()
                         .max(Comparator.comparing(String::length));
         System.out.println(longWord.get());
+
+
+//        33. Find Top N Highest Scoring Students
+//        Question: From a list of students, find the top 3 by score.
+        List<Student> students = Arrays.asList(
+                new Student("Alice", 85),
+                new Student("Bob", 92),
+                new Student("Charlie", 88),
+                new Student("Dave", 78),
+                new Student("Eve", 91)
+        );
+
+        List<String> top3ByScore = students.stream()
+                .sorted(Comparator.comparing(Student::getScore))
+                .skip(students.size() - 3)
+                .map(stu -> stu.name)
+
+                .collect(Collectors.toList()).reversed();
+        System.out.println(top3ByScore);
+
+
+//        34. Group by First Character
+//        Question: Group a list of strings by their first character.
+        List<String> wwords = Arrays.asList("apple", "banana", "avocado", "blueueberry", "cherry");
+        Map<Character , List<String>> mapChar = wwords.stream()
+                .collect(Collectors.groupingBy(
+                       sen  -> sen.charAt(0)
+                ));
+        System.out.println(mapChar);
+
+//        35. Custom Reduce to Concatenate Strings
+//        Question: Concatenate strings in reverse order using reduce.
+
+        List<String> wwordss = Arrays.asList("Stream", "API", "is", "awesome");
+        String concatRev = wwordss.stream()
+                .reduce((a ,b) -> b + " " + a).orElse(null);
+        System.out.println(concatRev);
+
+//        37. Collect Nested Map by Grouping
+//        Question: Group employees by department and then by age.
+
+        List<Employee> employees = Arrays.asList(
+                new Employee("Alice", "HR", 25),
+                new Employee("Bob", "IT", 30),
+                new Employee("Charlie", "HR", 30),
+                new Employee("Dave", "IT", 25)
+        );
+
+        Map<String , Map<Integer , List<String>>> nestedMap =
+                employees.stream().collect(Collectors.groupingBy(
+                       e -> e.department,
+                        Collectors.groupingBy(
+                                e -> e.age,
+                                Collectors.mapping(e -> e.name , Collectors.toList())
+
+                        )
+                ));
+        System.out.println(nestedMap);
+
+//        39. Find the Word with Maximum Vowels
+//        Question: Find the word with the most vowels in a list.
+
+        List<String> wordses = Arrays.asList("stream", "java", "programming", "awesome");
+        String wordWithLongestVowel = wordses.stream()
+                        .max(Comparator.comparingInt(wo -> (int) wo.chars().filter(cha -> ("aeiou").indexOf(cha)!=-1).count())).orElse("");
+
+        System.out.println(wordWithLongestVowel);
+
+//        42. Find Employees with Highest Salary in Each Department
+//        Question: From a list of employees, find the highest-paid employee in each department.
+
+        List<Employeee> employeees = Arrays.asList(
+                new Employeee("Alice", "HR", 50000),
+                new Employeee("Bob", "IT", 80000),
+                new Employeee("Charlie", "IT", 75000),
+                new Employeee("Dave", "HR", 60000),
+                new Employeee("Eve", "Finance", 70000)
+        );
+
+
+
+
+
 
 
 
