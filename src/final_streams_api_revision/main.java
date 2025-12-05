@@ -400,10 +400,89 @@ public class main {
                 new Employeee("Dave", "HR", 60000),
                 new Employeee("Eve", "Finance", 70000)
         );
+        Map<String , String> empWithHighestSal = employeees.stream()
+                .collect(Collectors.groupingBy(
+                        e -> e.department,
+                        Collectors.collectingAndThen(
+                                Collectors.maxBy(Comparator.comparingDouble(e -> e.salary)),
+                              emp -> emp.get().name
+                        )
+
+                ));
+        System.out.println(empWithHighestSal);
+
+
+//        43. Group Words by Length and Sort Them
+//        Question: Group words by their length and sort each group alphabetically.
+
+        List<String> worrds = Arrays.asList("java", "stream", "api", "example", "code" ,"test");
+        Map<Integer , List<String>> wrdByLen = worrds.stream()
+                .collect(Collectors.groupingBy(
+                        w -> w.length(),
+                      Collectors.collectingAndThen(
+                              Collectors.toList(),
+                              listt -> listt.stream().sorted().collect(Collectors.toList())
+                      )
+
+
+                ));
+        System.out.println(wrdByLen);
+
+//        44. Calculate the Product of All Numbers
+//        Question: Calculate the product of all numbers in a list using reduce.
+
+                List<Integer> numbersforProd = Arrays.asList(1, 2, 3, 4, 5);
+                int prod = numbersforProd.stream()
+                        .reduce(1 , (a, b) -> a*b);
+                System.out.println(prod);
 
 
 
+//        46. Detect Anagrams in a List
+//        Question: Detect all anagrams in a list of strings.
 
+        List<String> woords = Arrays.asList("listen", "silent", "enlist", "google", "elbow");
+        Map<String , List<String>> anagrams = woords.stream()
+                .collect(Collectors.groupingBy(
+                        w -> w.chars().sorted()
+                                .mapToObj(charr -> String.valueOf((char) charr))
+                                .collect(Collectors.joining())
+                ));
+        System.out.println(anagrams);
+
+//        49. Find Non-Repeating Characters in a String
+//        Question: Find all non-repeating characters in a string.
+
+        String si = "swiss";
+        List<Character> nonReap = si.chars()
+                .mapToObj(so -> (char) so)
+                        .collect(Collectors.groupingBy(
+                                charrr -> charrr,
+                                Collectors.counting()
+                        ))
+                                .entrySet()
+                                        .stream()
+                                                .filter(e -> e.getValue() ==1 )
+                                                        .map(e -> e.getKey())
+                                                                .toList();
+        System.out.println(nonReap);
+
+
+//        53. Find Duplicate Elements in a List
+//        Question: Identify all duplicate elements in a list.
+
+                List<Integer> numbersList = Arrays.asList(1, 2, 3, 4, 2, 5, 3, 6);
+                List<Integer> dupsNum = numbersList.stream()
+                        .collect(Collectors.groupingBy(
+                                n -> n,
+                                Collectors.counting()
+                        ))
+                        .entrySet()
+                        .stream()
+                        .filter(e -> e.getValue()>1)
+                        .map(e-> e.getKey())
+                        .toList();
+        System.out.println(dupsNum);
 
 
 
